@@ -6,12 +6,14 @@ import { XMLParser } from "fast-xml-parser";
 
 const defaultLabelStyle = {
   fill: "white",
-  fontSize: "5px",
+  fontSize: "3px",
   fontWeight: "bold",
   fontFamily: "sans-serif",
 };
 
 function App() {
+  const [dataTime, setDataTime] = useState(null);
+  console.log(dataTime);
   const [halfHourJson, setHalfHourJson] = useState(null);
 
   useEffect(() => {
@@ -34,9 +36,15 @@ function App() {
       const parser = new XMLParser(options);
       let elexonJsonObj = parser.parse(data);
       console.log(elexonJsonObj);
+      setDataTime(
+        elexonJsonObj.GENERATION_BY_FUEL_TYPE_TABLE.LAST_UPDATED["@_AT"].slice(
+          0,
+          10
+        ) +
+          "  " +
+          elexonJsonObj.GENERATION_BY_FUEL_TYPE_TABLE.HH["@_AT"]
+      );
       let lastHalfHour = elexonJsonObj.GENERATION_BY_FUEL_TYPE_TABLE.HH.FUEL;
-      console.log(lastHalfHour);
-
       setHalfHourJson(lastHalfHour);
     }
     loadData();
@@ -60,7 +68,44 @@ function App() {
                   value: Number(halfHourJson[4]["@_VAL"]),
                   color: "rgb(76, 174, 55)",
                 },
-                // { title: "Three", value: 20, color: "#6A2135" },
+                {
+                  title: "Biomass",
+                  value: Number(halfHourJson[13]["@_VAL"]),
+                  color: "rgb(255, 155, 50)",
+                },
+                {
+                  title: "Coal",
+                  value: Number(halfHourJson[4]["@_VAL"]),
+                  color: "rgb(178, 178, 178)",
+                },
+                {
+                  title: "Imports",
+                  value:
+                    Number(halfHourJson[9]["@_VAL"]) +
+                    Number(halfHourJson[10]["@_VAL"]) +
+                    Number(halfHourJson[11]["@_VAL"]) +
+                    Number(halfHourJson[12]["@_VAL"]) +
+                    Number(halfHourJson[14]["@_VAL"]) +
+                    Number(halfHourJson[15]["@_VAL"]) +
+                    Number(halfHourJson[16]["@_VAL"]) +
+                    Number(halfHourJson[17]["@_VAL"]),
+                  color: "rgb(255, 80, 90)",
+                },
+                {
+                  title: "Pumped Storage",
+                  value: Number(halfHourJson[6]["@_VAL"]),
+                  color: "rgb(255, 105, 180)",
+                },
+                {
+                  title: "Wind",
+                  value: Number(halfHourJson[5]["@_VAL"]),
+                  color: "rgb(21, 167, 229)",
+                },
+                {
+                  title: "Hydro",
+                  value: Number(halfHourJson[8]["@_VAL"]),
+                  color: "rgb(49, 105, 177)",
+                },
               ]}
               label={({ dataEntry }) => dataEntry.title}
               labelStyle={{
@@ -71,6 +116,7 @@ function App() {
           </div>
         )}
         <div className="values-container">
+          {dataTime && <h2>{dataTime}</h2>}
           {halfHourJson &&
             halfHourJson.map((fuel, i) => {
               return (
