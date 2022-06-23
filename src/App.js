@@ -54,6 +54,7 @@ function App() {
     <div className="App">
       <div>
         <h1>Current UK Grid Data</h1>
+        {dataTime && <h2>{dataTime}</h2>}
         {halfHourJson && (
           <div className="pie-container">
             <PieChart
@@ -116,7 +117,7 @@ function App() {
           </div>
         )}
         <div className="values-container">
-          {dataTime && <h2>{dataTime}</h2>}
+          
           {halfHourJson &&
             halfHourJson.map((fuel, i) => {
               return (
