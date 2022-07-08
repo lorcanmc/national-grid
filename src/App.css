@@ -9,6 +9,9 @@
   background-color: #131a27;
   text-align: center;
 }
+.App > * {
+  margin-top: 10px;
+}
 
 .pie-container {
   margin: 40px auto;
