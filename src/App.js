@@ -1,25 +1,21 @@
 import "./App.css";
 import { useEffect, useState } from "react";
+import DataDisplay from "./Components/DataDisplay/index.js";
+import MyPieChart from "./Components/MyPieChart/index.js";
 
-import { PieChart } from "react-minimal-pie-chart";
+
 import { XMLParser } from "fast-xml-parser";
 
-const defaultLabelStyle = {
-  fill: "white",
-  fontSize: "3px",
-  fontWeight: "bold",
-  fontFamily: "sans-serif",
-};
 
 function App() {
   const [recievedJson, setRecievedJson] = useState(null);
   const [recievedSolarJson, setRecievedSolarJson] = useState(null);
   let simplifiedData = null;
-  let fuelTotal = null;
+
 
   useEffect(() => {
     async function loadData() {
-      // sheffield solar
+      // Sheffield Solar
       const solarRes = await fetch(
         `https://api0.solar.sheffield.ac.uk/pvlive/v3/`
       );
@@ -105,14 +101,9 @@ function App() {
       });
       simplifiedData = inGW.sort((a, b) => b.value - a.value);
       console.log(simplifiedData);
-      fuelTotal = simplifiedData.reduce((acc, cur) => acc + Number(cur.value), 0);
     }
   }
   simplifyData();
-
-  function translucent(rgb) {
-    return rgb.slice(0, -1) + ", 0.4)";
-  }
 
   return (
     <div className="App">
@@ -129,47 +120,8 @@ function App() {
         )}
         {simplifiedData && (
           <>
-            <div className="pie-container">
-              <PieChart
-                data={simplifiedData}
-                label={({ dataEntry }) => dataEntry.title}
-                labelStyle={{
-                  ...defaultLabelStyle,
-                }}
-                labelPosition={60}
-              />
-            </div>
-            <div className="values-container">
-              {simplifiedData.map((fuel, i) => {
-                const percent = fuel.value / fuelTotal
-                return (
-                  <div className="fuel-container" key={i}>
-                    <div className="text-container">
-                      <div className="value">
-                        <span>
-                          <b>{fuel.title}: </b>
-                        </span>
-                        <span>{fuel.value}</span>
-                        <span style={{fontSize: "15px"}}>GW</span>
-                      </div>
-                      <div className="percentage">{Math.round(percent*100)}%</div>
-                    </div>
-                    <div
-                      className="bar-background"
-                      style={{ backgroundColor: translucent(fuel.color) }}
-                    >
-                      <div
-                        className="bar-foreground"
-                        style={{
-                          backgroundColor: fuel.color,
-                          width: percent*380,
-                        }}
-                      ></div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
+            <MyPieChart simplifiedData={simplifiedData} />
+            <DataDisplay simplifiedData={simplifiedData} />
           </>
         )}
       </div>
