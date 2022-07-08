@@ -3,15 +3,12 @@ import { useEffect, useState } from "react";
 import DataDisplay from "./Components/DataDisplay/index.js";
 import MyPieChart from "./Components/MyPieChart/index.js";
 
-
 import { XMLParser } from "fast-xml-parser";
-
 
 function App() {
   const [recievedJson, setRecievedJson] = useState(null);
   const [recievedSolarJson, setRecievedSolarJson] = useState(null);
   let simplifiedData = null;
-
 
   useEffect(() => {
     async function loadData() {
@@ -20,8 +17,8 @@ function App() {
         `https://api0.solar.sheffield.ac.uk/pvlive/v3/`
       );
       const solarData = await solarRes.json();
-      setRecievedSolarJson(solarData)
-      console.log(solarData)
+      setRecievedSolarJson(solarData);
+      console.log(solarData);
 
       //Elexon
       const res = await fetch(
@@ -107,24 +104,22 @@ function App() {
 
   return (
     <div className="App">
-      <div>
-        <h1>Current UK Electricity Grid Data</h1>
-        {recievedJson && (
-          <h2>
-            {recievedJson.GENERATION_BY_FUEL_TYPE_TABLE.LAST_UPDATED[
-              "@_AT"
-            ].slice(0, 10) +
-              "  " +
-              recievedJson.GENERATION_BY_FUEL_TYPE_TABLE.HH["@_AT"]}
-          </h2>
-        )}
-        {simplifiedData && (
-          <>
-            <MyPieChart simplifiedData={simplifiedData} />
-            <DataDisplay simplifiedData={simplifiedData} />
-          </>
-        )}
-      </div>
+      <h1>Current UK Electricity Grid Data</h1>
+      {recievedJson && (
+        <h2>
+          {recievedJson.GENERATION_BY_FUEL_TYPE_TABLE.LAST_UPDATED[
+            "@_AT"
+          ].slice(0, 10) +
+            "  " +
+            recievedJson.GENERATION_BY_FUEL_TYPE_TABLE.HH["@_AT"]}
+        </h2>
+      )}
+      {simplifiedData && (
+        <>
+          <MyPieChart simplifiedData={simplifiedData} />
+          <DataDisplay simplifiedData={simplifiedData} />
+        </>
+      )}
     </div>
   );
 }

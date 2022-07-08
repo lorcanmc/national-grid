@@ -9,8 +9,9 @@
   background-color: #131a27;
   text-align: center;
 }
-.App > * {
-  margin-top: 10px;
+
+h1 {
+  padding-top: 40px;
 }
 
 .pie-container {
@@ -39,7 +40,6 @@
 
 .values-container > * > * {
   margin: 10px;
-
 }
 
 .text-container {
@@ -50,11 +50,9 @@
 .bar-background {
   height: 10px;
   width: 380px;
-  background-color:rgb(255, 217, 0);
 }
 
 .bar-foreground {
   height: 10px;
   width: 60%;
-  /* background-color:rgba(0, 17, 255, 0.301); */
 }
