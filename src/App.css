@@ -17,13 +17,41 @@
 }
 
 .values-container {
+  border: 2px rgb(100, 100, 105) solid;
+
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-
+  height: 350px;
+  flex-wrap: wrap;
 }
 
 .values-container > * {
   text-align: left;
-  width: 500px;
+  width: 400px;
+  border: 2px rgb(100, 100, 105) solid;
+  margin: 10px;
+  font-size: 20px;
+}
+
+.values-container > * > * {
+  margin: 10px;
+
+}
+
+.text-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.bar-background {
+  height: 10px;
+  width: 380px;
+  background-color:rgb(255, 217, 0);
+}
+
+.bar-foreground {
+  height: 10px;
+  width: 60%;
+  /* background-color:rgba(0, 17, 255, 0.301); */
 }
