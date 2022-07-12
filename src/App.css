@@ -22,12 +22,12 @@ h1 {
 
 .values-container {
   border: 2px rgb(100, 100, 105) solid;
-
-  margin: 0 auto;
+  margin: 10px 20px;
   display: flex;
   flex-direction: column;
   height: 350px;
   flex-wrap: wrap;
+  align-content: space-evenly;
 }
 
 .values-container > * {
